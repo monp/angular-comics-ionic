@@ -1,0 +1,175 @@
+:sectanchors:
+:numbered:
+:icons: font
+:experimental:
+:imagesdir: doc
+
+image::ionic-logo.png[Ionic logo]
+
+toc::[]
+
+Ionic 1 permet de développer des applications mobiles hybrides à l'aide de Cordova ou PhoneGap plutot que des sites web _responsives_. A partir de Ionic 2, les _Progressive Web Applications_ sont également supportées.
+
+== Références
+
+* https://ionicframework.com/docs/v1/[Documentation^] de Ionic 1
+* https://cordova.apache.org[Site officiel^] de Cordova
+* https://ui-router.github.io/ng1/[Documentation^] d'Angular UI-Router
+
++
+[IMPORTANT]
+====
+L'implémentation de Ionic 1 est basé sur AngularJS. Angular2 à partir de Ionic 2.
+====
+
+== Mise en place
+
+Les étapes nécessaires pour bien démarrer le travail sont les suivantes.
+
+=== Récupération des sources
+
+Pour disposer des sources, utiliser _git_ :
+
+[source, bash]
+----
+git clone https://github.com/monp/angular-comics-ionic.git
+----
+
+La branche de travail est `master`.
+
+=== Téléchargement des modules
+
+Les outils utilisés pour ce _workshop_ sont les mêmes que pour le _workshop_ AngularJS.
+
+https://www.ionic.io/[ionic^]:: 
++
+Installer Ionic CLI et Cordova.
++
+[source, bash]
+----
+npm install -g ionic cordova
+----
+
+== Premiers pas
+
+Le travail consiste à développer une *application mobile* pour visualiser des _comic books_. Nous allons essentiellement réutiliser le code du _workshop_ AngularJS. 
+
+=== Squelette de l'application
+
+[source]
+----
+├── hooks      // Cordova hooks permet d'exécuter des commandes spécifiques pendant le build
+├── platforms  // build spécifiques iOS/Android
+├── plugins    // plugins Cordova et Ionic
+├── resources  // icône et écran de démarrage
+├── scss       // styles scss, générés par gulp dans www/css/
+├── www        
+     ├── css   // styles css
+     ├── img   // images
+     ├── js    // code Angular + JS
+     ├── lib   // bibliothèques
+     ├── manifest.json   // informations de déploiement
+     ├── index.html  // master page        
+├── bower.json    
+├── config.xml     // configuration Cordova
+├── gulpfile.js    // configuration gulp
+├── ionic.config.json  // configuration ionic
+├── package.json 
+----
+
+[WARNING]
+====
+Nous utiliserons `Ionic CLI` pour construire notre projet. Dans le cas où des dépendances `bower` devrait être copiés, le plus simple est de créer un fichier `.bowerrc` et d'indiquer le répertoire de sortie.
+====
+
+=== Lancement du serveur standalone
+
+Un serveur de développement peut être lancé avec `Ionic CLI`. Le rechargement automatique du navigateur web est supportée par défaut.
+
+[source, bash]
+----
+ionic serve
+----
+
+Afin de tester le rendu en simultané sur iOS et Android ajouter l'option `--lab`.
+
+[source, bash]
+----
+ionic serve --lab
+----
+
+== Affichage de la bibliothèque de comics
+
+Nous allons compléter le code afin d'afficher la liste des _comics_, à cet effet nous pourrons réutiliser le code AngularJS du précédent _workshop_. 
+
+=== Affichage de la liste des Comics
+* Modifier le fichier `/www/templates/tabs.html` et ajouter un onglet _Comics_
++
+image::comics-tab.png[]
+
+====
+Les attributs `icon-off` et `icon-on` permettent de changer l'apparence de l'icône en fonction de son état.
+====
+
+* Créer une vue associée `tab-comics.html`, dans un premier temps les données sont saisies en dur dans le modèle html. 
+* Modifier le fichier `app.js` et créer une règle de routage pour la vue `tab-comics.html`
+
+Normalement vous devriez être maintenant en mesure d'afficher un listing de comics en naviguant dans votre nouvel onglet.
+
+image::ionic-comics.png[Ionic comics]
+
+====
+Lors de la navigation, le titre de la vue s'affiche automatiquement dans le composant `ion-nav-bar` définit dans le fichier `index.html`.
+====
+
+=== Récupération des données
+
+* Créer un service `comicsService` pour récupérer les données à partir du serveur de Marvel.
+
+[WARNING]
+====
+N'oubliez pas d'indiquer votre clé d'API.
+====
+
+[IMPORTANT]
+====
+Si vous souhaitez utiliser `angular-resource` n'oublier pas d'importer la dépendance et de déclarer le module dans l'application.
+====
+* Créer un controleur `comicsController`, injecter le service `comicsService` et retourner la liste de comics.
+* Associer le controleur `comicsController` à la vue `tab-comics.html` en modifiant la règle de routage dans `app.js`.
+
+====
+Pour associer un controleur à une vue, ajouter l'attribut `controller` à la suite de `templateUrl`
+====
+* Modifier le modèle `tab-comics.html` afin de prendre en compte les données chargées.
+
+=== Affichage des détails d'un comic
+* Créer une vue `comic-detail.html` pour afficher les détails d'un comic. Reprendre les données affichées dans le _workshop_ AngularJS.
+
+image::responsive-detail-page-phone.png[Détail comic AngulaJS]
+
+* Modifier la vue `tab-comics.html` afin de déclencher la navigation lors de la séléction d'un comic.
+====
+Utiliser l'attribut `href` pour déclencher la navigation et n'oublier pas de transmettre l'identifiant du comic dans l'URL.
+====
+* Créer une règle de routage en modifiant le fichier `app.js` et récupérer le paramètre transmis lors de la navigation.
+====
+Le paramètre récupérer doit être nommé, par exemple `/comics/:comicId`. Afin de récupérer sa valeur, injecter `$stateParams` au niveau du controlleur et appeler `$stateParams.comicId`
+====
+* Compléter le contrôleur et le service associé.
+
+image::ionic-comic-detail.png[Ionic comic]
+
+== Aller plus loin
+
+1. Remplacer Gulp par Grunt
+** Ajouter des tests unitaires et e2e
+** Intégrer les commandes Ionic CLI
+2. Gérer une liste de favoris
+** Tester différentes méthodes de stockage
+** Intégrer des fonctionnalités proposées par Cordova
+3. Utiliser un simulateur ios ou Android 
+** `cordova add platform {ios|android}`
+** En développement, résoudre les problèmes de sécurité (CORS)
+4. Migrer le code vers Ionic 2
+
