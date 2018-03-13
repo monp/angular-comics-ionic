@@ -50,6 +50,15 @@ angular.module('comicsApp', ['ionic', 'ngResource', 'comicsApp.controllers', 'co
             controller: 'comicsController'
           }
         }
+      })
+      .state('nav.comic-detail', {
+        url: '/comics/:comicId',
+        views: {
+          'tab-comics': {
+            templateUrl: 'templates/comic-detail.html',
+            controller: 'comicController'
+          }
+        }
       });
     // Redirection vers la vue par défaut
     $urlRouterProvider.otherwise('/tab/home');

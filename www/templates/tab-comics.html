@@ -1,7 +1,7 @@
 <ion-view view-title="Comics">
   <ion-content>
     <ion-list>
-      <ion-item class="item-thumbnail-left item-icon-right" type="item-text-wrap" ng-repeat="comic in comics | orderBy: 'title'">
+      <ion-item class="item-thumbnail-left item-icon-right" type="item-text-wrap" ng-repeat="comic in comics | orderBy: 'title'" href="#/tab/comics/{{comic.id}}">
         <img ng-src="{{comic.thumbnail.path}}.{{comic.thumbnail.extension}}">
         <h2>{{comic.title}}</h2>
         <p>Issue number #{{comic.issueNumber}}</p>

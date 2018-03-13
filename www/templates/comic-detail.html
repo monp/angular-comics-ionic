@@ -1,0 +1,35 @@
+<ion-view view-title="{{comic.title}}">
+  <ion-content class="padding">
+    <div class="list card">
+      <div class="item item-thumbnail-left">
+        <img ng-src="{{comic.thumbnail.path}}.{{comic.thumbnail.extension}}">
+        <h2>{{comic.title}} <span class="label label-danger">#{{comic.issueNumber}}</span><span class="badge" ng-if="comic.prices[0].price > 0">${{ comic.prices[0].price }}</span></h2>
+        <p>{{ comic.description }}</p>
+      </div>
+      <div class="item item-body">
+        <div class="row" ng-repeat="image in comic.images">
+          <div class="list card">
+            <div class="item item-body">
+              <img class="full-image" ng-src="{{image.path}}.{{image.extension}}">
+            </div>
+          </div>  
+        </div>
+        <div class="list">
+          <div class="item item-divider">
+            Character(s) <span class="badge">{{ comic.characters.available }}</span>
+          </div>
+          <a class="item" href="#" ng-repeat="character in comic.characters.items">{{ character.name }}</a>
+          <div class="item item-divider">
+            Stories(s) <span class="badge">{{ comic.stories.available }}</span>
+          </div>
+          <a class="item" href="#" ng-repeat="story in comic.stories.items">{{ story.name }}</a>
+          <div class="item item-divider">
+            Creator(s) <span class="badge">{{ comic.creators.available }}</span>
+          </div>
+          <a class="item" href="#" ng-repeat="creator in comic.creators.items">{{ creator.role }}: {{ creator.name }}</a>
+        </div>
+      </div>
+    </div>
+  </ion-content>
+</ion-view>
+      

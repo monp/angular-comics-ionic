@@ -10,4 +10,7 @@ angular.module('comicsApp.services', [])
     this.getComics = function() {
       return $resource(baseURL + '/v1/public/comics', { 'limit': 50, 'apikey': configService.apiKey });
     };
+    this.getComic = function(id) {
+      return $resource(baseURL + '/v1/public/comics/:id', { 'id': id, 'apikey': configService.apiKey });
+    };
   }]);
