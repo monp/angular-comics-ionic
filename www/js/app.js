@@ -40,6 +40,14 @@ angular.module('comicsApp', ['ionic', 'comicsApp.controllers', 'comicsApp.servic
             templateUrl: 'templates/tab-about.html'
           }
         }
+      })
+      .state('nav.comics', {
+        url: '/comics',
+        views: {
+          'tab-comics': {
+            templateUrl: 'templates/tab-comics.html'
+          }
+        }
       });
     // Redirection vers la vue par défaut
     $urlRouterProvider.otherwise('/tab/home');
