@@ -46,7 +46,8 @@ angular.module('comicsApp', ['ionic', 'ngResource', 'comicsApp.controllers', 'co
         url: '/comics',
         views: {
           'tab-comics': {
-            templateUrl: 'templates/tab-comics.html'
+            templateUrl: 'templates/tab-comics.html',
+            controller: 'comicsController'
           }
         }
       });
