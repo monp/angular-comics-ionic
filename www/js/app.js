@@ -1,6 +1,7 @@
 'use strict';
 
-angular.module('comicsApp', ['ionic', 'comicsApp.controllers', 'comicsApp.services'])
+angular.module('comicsApp', ['ionic', 'ngResource', 'comicsApp.controllers', 'comicsApp.services'])
+  .constant('baseURL', 'https://gateway.marvel.com:443')
   .run(function($ionicPlatform) {
     $ionicPlatform.ready(function() {
       // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
